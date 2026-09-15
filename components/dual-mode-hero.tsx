@@ -1,11 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ArrowDownRight,
   ArrowRight,
   AudioLines,
   BookOpen,
+  Check,
+  Compass,
+  HeartHandshake,
   MapPin,
   Mic2,
   ShieldCheck,
@@ -21,7 +24,7 @@ const modeContent = {
     title: <><span>Culture lives</span><br />in <em>their</em> voice.</>,
     lede: 'Meet the artists, elders, performers, and keepers carrying India’s living traditions forward—on their own terms.',
     primary: { label: 'Enter the living archive', href: '/discover' },
-    secondary: { label: 'Book an experience', href: '/book', icon: BookOpen },
+    secondary: { label: 'My cultural journey', href: '/journey', icon: UserRound },
     image: '/theyyam-custodian.jpg',
     imageAlt: 'Theyyam custodian wearing traditional ritual makeup and costume',
     featured: 'Featured voice',
@@ -53,7 +56,59 @@ const modeContent = {
 };
 
 export function DualModeHero() {
-  const [mode, setMode] = useState<ExperienceMode>('visitor');
+  const [mode, setMode] = useState<ExperienceMode | null>(null);
+
+  useEffect(() => {
+    const savedMode = window.sessionStorage.getItem('parampara-mode');
+    const forceChoice = new URLSearchParams(window.location.search).has('choose');
+    if (!forceChoice && (savedMode === 'visitor' || savedMode === 'custodian')) setMode(savedMode);
+  }, []);
+
+  const chooseMode = (nextMode: ExperienceMode) => {
+    window.sessionStorage.setItem('parampara-mode', nextMode);
+    setMode(nextMode);
+    window.dispatchEvent(new CustomEvent('parampara-mode-change', { detail: nextMode }));
+  };
+
+  if (!mode) {
+    return (
+      <section className="experience-gate" aria-labelledby="experience-gate-title">
+        <div className="gate-atmosphere" />
+        <div className="gate-intro">
+          <p><Sparkles /> Before we begin</p>
+          <h1 id="experience-gate-title">How are you entering<br /><em>Parampara?</em></h1>
+          <span>Choose the experience that belongs to you. You can switch anytime.</span>
+        </div>
+
+        <div className="gate-choices">
+          <button className="gate-choice gate-visitor" onClick={() => chooseMode('visitor')}>
+            <img src="/theyyam-custodian.jpg" alt="A visitor discovering a Theyyam custodian's story" />
+            <i />
+            <div>
+              <span><Compass /> Visitor</span>
+              <h2>I’m here<br />to discover.</h2>
+              <p>Meet people behind living traditions, save their stories, and learn directly from them.</p>
+              <strong>Enter as a visitor <ArrowRight /></strong>
+            </div>
+          </button>
+
+          <button className="gate-choice gate-custodian" onClick={() => chooseMode('custodian')}>
+            <img src="/bharatanatyam.jpg" alt="A cultural custodian preparing to share her tradition" />
+            <i />
+            <div>
+              <span><Mic2 /> Custodian</span>
+              <h2>I’m here<br />to share.</h2>
+              <p>Tell your story naturally, approve every word, and decide exactly who may access it.</p>
+              <strong>Enter as a custodian <ArrowRight /></strong>
+            </div>
+          </button>
+        </div>
+
+        <div className="gate-promise"><HeartHandshake /><span><strong>Two experiences. One promise.</strong> Culture stays in human hands.</span><Check /></div>
+      </section>
+    );
+  }
+
   const content = modeContent[mode];
   const SecondaryIcon = content.secondary.icon;
 
@@ -63,8 +118,8 @@ export function DualModeHero() {
       <div className="hero-copy" key={mode}>
         <div className="experience-switch" role="group" aria-label="Choose how you use Parampara">
           <span>I’m here to</span>
-          <button className={mode === 'visitor' ? 'active' : ''} onClick={() => setMode('visitor')} aria-pressed={mode === 'visitor'}><BookOpen /> Discover culture</button>
-          <button className={mode === 'custodian' ? 'active' : ''} onClick={() => setMode('custodian')} aria-pressed={mode === 'custodian'}><Mic2 /> Share my culture</button>
+          <button className={mode === 'visitor' ? 'active' : ''} onClick={() => chooseMode('visitor')} aria-pressed={mode === 'visitor'}><BookOpen /> Discover culture</button>
+          <button className={mode === 'custodian' ? 'active' : ''} onClick={() => chooseMode('custodian')} aria-pressed={mode === 'custodian'}><Mic2 /> Share my culture</button>
         </div>
         <p className="eyebrow"><Sparkles /> {content.eyebrow}</p>
         <h1 id="hero-title">{content.title}</h1>

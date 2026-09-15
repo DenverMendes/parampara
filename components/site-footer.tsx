@@ -10,6 +10,7 @@ export function SiteFooter() {
       </div>
       <div className="footer-links">
         <a href="/discover">Discover <ArrowUpRight /></a>
+        <a href="/journey">My cultural journey <ArrowUpRight /></a>
         <a href="/onboarding">Share your tradition <ArrowUpRight /></a>
         <a href="/dashboard">Judge demo <ArrowUpRight /></a>
         <small>Built for custodians. Designed with consent.</small>

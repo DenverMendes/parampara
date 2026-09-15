@@ -7,6 +7,20 @@ import { Button } from '@/components/ui/button';
 export function SiteHeader() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profileMode, setProfileMode] = useState<'visitor' | 'custodian' | null>(null);
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).has('choose')) return;
+    const savedMode = window.sessionStorage.getItem('parampara-mode');
+    if (savedMode === 'visitor' || savedMode === 'custodian') setProfileMode(savedMode);
+
+    const updateMode = (event: Event) => {
+      const nextMode = (event as CustomEvent<'visitor' | 'custodian'>).detail;
+      if (nextMode === 'visitor' || nextMode === 'custodian') setProfileMode(nextMode);
+    };
+    window.addEventListener('parampara-mode-change', updateMode);
+    return () => window.removeEventListener('parampara-mode-change', updateMode);
+  }, []);
 
   useEffect(() => {
     if (!searchOpen && !menuOpen) return;
@@ -43,9 +57,11 @@ export function SiteHeader() {
           <Button variant="ghost" size="icon" aria-label="Search" aria-expanded={searchOpen} onClick={() => setSearchOpen(true)}>
             <Search />
           </Button>
-          <a className="header-signin hidden sm:inline-flex" href="/dashboard">Dashboard</a>
-          <a className="header-cta hidden sm:inline-flex" href="/onboarding">
-            Share your tradition <Sparkles />
+          <a className="header-signin hidden sm:inline-flex" href={profileMode === 'visitor' ? '/journey' : profileMode === 'custodian' ? '/dashboard' : '/?choose=1'}>
+            {profileMode === 'visitor' ? 'My journey' : profileMode === 'custodian' ? 'My workspace' : 'Choose your path'}
+          </a>
+          <a className="header-cta hidden sm:inline-flex" href={profileMode === 'custodian' ? '/story-studio' : profileMode === 'visitor' ? '/discover' : '/onboarding'}>
+            {profileMode === 'custodian' ? 'Add a story' : profileMode === 'visitor' ? 'Keep exploring' : 'Share your tradition'} <Sparkles />
           </a>
           <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)}>
             <Menu />
@@ -82,8 +98,10 @@ export function SiteHeader() {
             <a href="/discover">Discover <ArrowRight /></a>
             <a href="/story-studio">Story studio <ArrowRight /></a>
             <a href="/book">Experiences <ArrowRight /></a>
-            <a href="/onboarding">Become a custodian <ArrowRight /></a>
-            <a href="/dashboard">Start judge demo <ArrowRight /></a>
+            <a href={profileMode === 'visitor' ? '/journey' : '/dashboard'}>
+              {profileMode === 'visitor' ? 'My cultural journey' : 'Custodian workspace'} <ArrowRight />
+            </a>
+            <a href="/?choose=1">Switch experience <ArrowRight /></a>
           </section>
         </div>
       )}

@@ -53,13 +53,15 @@ export function CustodianDashboard() {
           <a href="/permissions"><ShieldCheck /> Cultural controls</a>
           <a href="#messages"><MessageCircle /> Messages <span>2</span></a>
         </nav>
-        <div className="dash-profile"><div>MB</div><p><strong>Meenakshi Bhat</strong><span>Yakshagana custodian</span></p><ChevronRight /></div>
+        <a className="dash-profile" href="/?choose=1" aria-label="Switch from the custodian experience">
+          <div>MB</div><p><strong>Meenakshi Bhat</strong><span>Custodian profile · Switch experience</span></p><ChevronRight />
+        </a>
       </aside>
 
       <main className="dashboard-main">
         <header className="dashboard-topbar">
           <p>Tuesday, 15 September</p>
-          <div><button onClick={() => setTopNotice('Every decision stays reversible. The guided demo is the fastest way to explore Parampara.')} aria-label="Help"><CircleHelp /></button><button onClick={() => setTopNotice('2 updates: a new message and one workshop request. Both are shown in Recent activity.')} aria-label="Notifications"><Bell /><span /></button></div>
+          <div><a href="/?choose=1" aria-label="Switch experience"><UserRound /></a><button onClick={() => setTopNotice('Every decision stays reversible. The guided demo is the fastest way to explore Parampara.')} aria-label="Help"><CircleHelp /></button><button onClick={() => setTopNotice('2 updates: a new message and one workshop request. Both are shown in Recent activity.')} aria-label="Notifications"><Bell /><span /></button></div>
         </header>
 
         {topNotice && <div className="dashboard-notice" role="status"><span>{topNotice}</span><button onClick={() => setTopNotice('')} aria-label="Dismiss notice">Dismiss</button></div>}

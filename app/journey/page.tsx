@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function JourneyPage() {
   return (
     <main className="visitor-page">
-      <SiteHeader />
+      <SiteHeader activeHref="/journey" />
       <VisitorJourney />
       <SiteFooter />
     </main>

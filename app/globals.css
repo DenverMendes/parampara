@@ -162,11 +162,11 @@
   color: #4d5d55;
 }
 
-.site-header nav a:first-child {
+.site-header nav a.active {
   color: #173f32;
 }
 
-.site-header nav a:first-child::after {
+.site-header nav a.active::after {
   content: '';
   position: absolute;
   height: 3px;

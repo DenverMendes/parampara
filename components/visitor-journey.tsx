@@ -28,7 +28,7 @@ export function VisitorJourney() {
 
       <div className="journey-metrics" aria-label="Your journey at a glance">
         <article><Bookmark /><p><strong>2</strong><span>voices saved</span></p></article>
-        <article><CalendarDays /><p><strong>1</strong><span>visit requested</span></p></article>
+        <article><CalendarDays /><p><strong>1</strong><span>visit confirmed</span></p></article>
         <article><IndianRupee /><p><strong>₹1,500</strong><span>direct support</span></p></article>
         <article><HeartHandshake /><p><strong>91%</strong><span>reaches custodians</span></p></article>
       </div>
@@ -52,7 +52,7 @@ export function VisitorJourney() {
 
       <section className="journey-saved">
         <header><div><p>Saved for later</p><h2>Voices you chose<br />to remember.</h2></div><a href="/discover">Find another voice <ArrowRight /></a></header>
-        <div>{[custodians[0], custodians[3]].map((custodian, index) => <CustodianCard key={custodian.slug} custodian={custodian} index={index} />)}</div>
+        <div>{[custodians[0], custodians[3]].map((custodian, index) => <CustodianCard key={custodian.slug} custodian={custodian} index={index} initialSaved />)}</div>
       </section>
 
       <section className="respect-passport">

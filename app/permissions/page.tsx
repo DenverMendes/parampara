@@ -9,7 +9,7 @@ export const metadata = {
 export default function PermissionsPage() {
   return (
     <main className="flow-page privacy-page">
-      <SiteHeader />
+      <SiteHeader activeHref="/permissions" />
       <PrivacyControls />
     </main>
   );

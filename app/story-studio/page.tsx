@@ -9,7 +9,7 @@ export const metadata = {
 export default function StoryStudioPage() {
   return (
     <main className="flow-page story-studio-page">
-      <SiteHeader />
+      <SiteHeader activeHref="/story-studio" />
       <StoryStudioFlow />
     </main>
   );

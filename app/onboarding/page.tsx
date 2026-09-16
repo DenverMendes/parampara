@@ -9,7 +9,7 @@ export const metadata = {
 export default function OnboardingPage() {
   return (
     <main className="flow-page onboarding-page">
-      <SiteHeader />
+      <SiteHeader activeHref="/story-studio" />
       <CustodianOnboarding />
     </main>
   );

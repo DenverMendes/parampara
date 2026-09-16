@@ -11,7 +11,7 @@ export const metadata = {
 export default function DiscoverPage() {
   return (
     <main className="inner-page">
-      <SiteHeader />
+      <SiteHeader activeHref="/discover" />
       <InnerHero
         eyebrow="The living archive"
         title="Find a tradition."

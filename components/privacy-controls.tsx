@@ -41,6 +41,12 @@ export function PrivacyControls() {
         <aside><ShieldCheck /><p><strong>Your culture. Your rules.</strong><span>Nothing changes without your action.</span></p></aside>
       </header>
 
+      <div className="permission-legend" aria-label="What each sharing choice means">
+        <div><Eye /><p><strong>Public</strong><span>Anyone can learn from it</span></p></div>
+        <div><MousePointer2 /><p><strong>Ask me</strong><span>You approve each person</span></p></div>
+        <div><LockKeyhole /><p><strong>Private</strong><span>Only you can open it</span></p></div>
+      </div>
+
       <div className="privacy-table">
         <div className="privacy-table-head"><span>Content</span><span>Who can see it?</span></div>
         {items.map((item, index) => {
@@ -62,9 +68,9 @@ export function PrivacyControls() {
       <div className="use-controls">
         <div className="use-control-intro"><p>Beyond visibility</p><h2>Choose how your work can be used.</h2><span>Each choice is separate. “Off” is always a valid answer.</span></div>
         <div className="use-control-list">
-          <label><span><GraduationCap /><p><strong>Educational use</strong><small>Schools may include approved public stories</small></p></span><button type="button" className={`use-switch ${uses.education ? 'active' : ''}`} role="switch" aria-checked={uses.education} aria-label="Educational use" onClick={() => toggleUse('education')}><i /></button></label>
-          <label><span><Sparkles /><p><strong>AI training</strong><small>Your media will not train any model</small></p></span><button type="button" className={`use-switch ${uses.ai ? 'active' : ''}`} role="switch" aria-checked={uses.ai} aria-label="AI training" onClick={() => toggleUse('ai')}><i /></button></label>
-          <label><span><Eye /><p><strong>Allow downloads</strong><small>People can view, but cannot save files</small></p></span><button type="button" className={`use-switch ${uses.downloads ? 'active' : ''}`} role="switch" aria-checked={uses.downloads} aria-label="Allow downloads" onClick={() => toggleUse('downloads')}><i /></button></label>
+          <label><span><GraduationCap /><p><strong>Educational use</strong><small>{uses.education ? 'Schools may use approved public stories' : 'Schools must ask you before every use'}</small></p></span><em>{uses.education ? 'Allowed' : 'Not allowed'}</em><button type="button" className={`use-switch ${uses.education ? 'active' : ''}`} role="switch" aria-checked={uses.education} aria-label="Educational use" onClick={() => toggleUse('education')}><i /></button></label>
+          <label><span><Sparkles /><p><strong>AI training</strong><small>{uses.ai ? 'Approved public material may train models' : 'Your media will not train any model'}</small></p></span><em>{uses.ai ? 'Allowed' : 'Not allowed'}</em><button type="button" className={`use-switch ${uses.ai ? 'active' : ''}`} role="switch" aria-checked={uses.ai} aria-label="AI training" onClick={() => toggleUse('ai')}><i /></button></label>
+          <label><span><Eye /><p><strong>Allow downloads</strong><small>{uses.downloads ? 'People can save approved public files' : 'People can view, but cannot save files'}</small></p></span><em>{uses.downloads ? 'Allowed' : 'Not allowed'}</em><button type="button" className={`use-switch ${uses.downloads ? 'active' : ''}`} role="switch" aria-checked={uses.downloads} aria-label="Allow downloads" onClick={() => toggleUse('downloads')}><i /></button></label>
         </div>
       </div>
 

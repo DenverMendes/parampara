@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { ArrowRight, Menu, Search, Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-export function SiteHeader() {
+export function SiteHeader({ activeHref }: { activeHref?: string }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileMode, setProfileMode] = useState<'visitor' | 'custodian' | null>(null);
@@ -21,6 +21,26 @@ export function SiteHeader() {
     window.addEventListener('parampara-mode-change', updateMode);
     return () => window.removeEventListener('parampara-mode-change', updateMode);
   }, []);
+
+  const navigation = profileMode === 'visitor'
+    ? [
+        { label: 'Discover', href: '/discover' },
+        { label: 'My journey', href: '/journey' },
+        { label: 'Experiences', href: '/book' },
+      ]
+    : profileMode === 'custodian'
+      ? [
+          { label: 'Workspace', href: '/dashboard' },
+          { label: 'My stories', href: '/story-studio' },
+          { label: 'Cultural controls', href: '/permissions' },
+        ]
+      : [
+          { label: 'Discover', href: '/discover' },
+          { label: 'Story studio', href: '/story-studio' },
+          { label: 'Experiences', href: '/book' },
+        ];
+
+  const isActive = (href: string) => activeHref === href;
 
   useEffect(() => {
     if (!searchOpen && !menuOpen) return;
@@ -49,9 +69,7 @@ export function SiteHeader() {
           </div>
         </a>
         <nav aria-label="Main navigation">
-          <a href="/discover">Discover</a>
-          <a href="/story-studio">Story studio</a>
-          <a href="/book">Experiences</a>
+          {navigation.map((item) => <a key={item.href} className={isActive(item.href) ? 'active' : ''} href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>)}
         </nav>
         <div className="header-actions">
           <Button variant="ghost" size="icon" aria-label="Search" aria-expanded={searchOpen} onClick={() => setSearchOpen(true)}>
@@ -94,13 +112,8 @@ export function SiteHeader() {
         <div className="native-dialog-overlay native-menu-overlay" onMouseDown={() => setMenuOpen(false)}>
           <section className="native-dialog-panel mobile-menu" role="dialog" aria-modal="true" aria-label="Explore Parampara" onMouseDown={(event) => event.stopPropagation()}>
             <button className="native-dialog-close" onClick={() => setMenuOpen(false)} aria-label="Close menu"><X /></button>
-            <p className="eyebrow">Explore Parampara</p>
-            <a href="/discover">Discover <ArrowRight /></a>
-            <a href="/story-studio">Story studio <ArrowRight /></a>
-            <a href="/book">Experiences <ArrowRight /></a>
-            <a href={profileMode === 'visitor' ? '/journey' : '/dashboard'}>
-              {profileMode === 'visitor' ? 'My cultural journey' : 'Custodian workspace'} <ArrowRight />
-            </a>
+            <p className="eyebrow">{profileMode === 'visitor' ? 'Your visitor experience' : profileMode === 'custodian' ? 'Your custodian workspace' : 'Explore Parampara'}</p>
+            {navigation.map((item) => <a key={item.href} href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label} <ArrowRight /></a>)}
             <a href="/?choose=1">Switch experience <ArrowRight /></a>
           </section>
         </div>

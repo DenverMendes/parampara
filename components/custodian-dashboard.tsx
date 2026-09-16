@@ -68,12 +68,21 @@ export function CustodianDashboard() {
 
         <div className="dashboard-greeting">
           <div><p>Namaskara, Meenakshi.</p><h1>Here&apos;s what matters<br /><em>today.</em></h1></div>
-          <button onClick={() => setDemoStep(0)}><Play className="fill-current" /><span><strong>Start judge demo</strong><small>See the full promise in 2 minutes</small></span></button>
+          <button onClick={() => setDemoStep(0)}><Play className="fill-current" /><span><strong>See how Parampara works</strong><small>5 guided steps · about 2 minutes</small></span></button>
         </div>
+
+        <section className="dashboard-quick-actions" aria-label="Recommended next actions">
+          <header><p>Start here</p><span>Everything important is one tap away.</span></header>
+          <div>
+            <a href="/story-studio"><BookOpen /><p><strong>Tell a new story</strong><small>Speak naturally; review every word</small></p><ArrowRight /></a>
+            <a href="/permissions"><ShieldCheck /><p><strong>Review 3 access requests</strong><small>You decide who may watch</small></p><ArrowRight /></a>
+            <a href="/book"><CalendarDays /><p><strong>Check your next visit</strong><small>Saturday · 4 guests confirmed</small></p><ArrowRight /></a>
+          </div>
+        </section>
 
         {demoStep >= 0 && (
           <section className="demo-rail" aria-live="polite" style={{ '--demo-accent': demoSteps[demoStep].accent } as React.CSSProperties}>
-            <header><p><Sparkles /> Presentation mode</p><span>{demoStep + 1} / {demoSteps.length}</span></header>
+            <header><p><Sparkles /> Guided product tour</p><span>{demoStep + 1} / {demoSteps.length}</span></header>
             <div className="demo-progress">{demoSteps.map((step, index) => <i key={step.label} className={index <= demoStep ? 'active' : ''} />)}</div>
             <div className="demo-content"><span>{demoSteps[demoStep].label}</span><h2>{demoSteps[demoStep].title}</h2><p>{demoSteps[demoStep].copy}</p></div>
             <footer><button onClick={() => setDemoStep(-1)}>Exit demo</button><button onClick={advanceDemo}>{demoStep === demoSteps.length - 1 ? <><RotateCcw /> Restart later</> : <>Next: {demoSteps[demoStep + 1].label} <ArrowRight /></>}</button></footer>

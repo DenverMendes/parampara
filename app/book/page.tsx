@@ -9,7 +9,7 @@ export const metadata = {
 export default function BookPage() {
   return (
     <main className="flow-page booking-page">
-      <SiteHeader />
+      <SiteHeader activeHref="/book" />
       <BookingFlow />
     </main>
   );

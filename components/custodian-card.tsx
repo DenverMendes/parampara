@@ -7,11 +7,13 @@ import type { Custodian } from '@/lib/cultural-data';
 export function CustodianCard({
   custodian,
   index,
+  initialSaved = false,
 }: {
   custodian: Custodian;
   index: number;
+  initialSaved?: boolean;
 }) {
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState(initialSaved);
 
   return (
     <article className="custodian-card" style={{ '--card-accent': custodian.color } as React.CSSProperties}>

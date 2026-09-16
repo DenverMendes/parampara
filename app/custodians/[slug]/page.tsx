@@ -26,7 +26,7 @@ export default async function CustodianProfile({ params }: { params: Promise<{ s
 
   return (
     <main className="profile-page">
-      <SiteHeader />
+      <SiteHeader activeHref="/discover" />
       <section className="profile-cover">
         <img src={person.image} alt={`${person.name} practicing ${person.tradition}`} />
         <div className="profile-cover-shade" />
@@ -35,6 +35,7 @@ export default async function CustodianProfile({ params }: { params: Promise<{ s
           <h1>{person.name}</h1>
           <span>{person.tradition} · {person.role}</span>
           <small><MapPin /> {person.location} · {person.languages.join(' · ')}</small>
+          <a className="profile-cover-action" href={`/book?host=${person.slug}`}>Meet {person.name.split(' ')[0]} <ArrowRight /></a>
         </div>
         <div className="profile-quote">“{person.quote}”</div>
       </section>
@@ -50,11 +51,11 @@ export default async function CustodianProfile({ params }: { params: Promise<{ s
       <section className="profile-story" id="story">
         <div className="story-index"><span>01</span><p>In their own words</p></div>
         <div className="story-body">
-          <p className="story-dropcap">This tradition first entered my life through the people around me. I learned by watching, listening, repeating, and slowly understanding why every detail matters.</p>
-          <p>Today, I share it with learners who want more than a photograph. They come to understand the preparation, the discipline, the community, and the responsibility behind what they see.</p>
+          <p className="story-dropcap">{person.storyLead}</p>
+          <p>{person.storyBody}</p>
           <StoryAudioButton
             language={person.languages[0]}
-            story={`This tradition first entered my life through the people around me. I learned by watching, listening, repeating, and slowly understanding why every detail matters. Today, I share it with learners who want more than a photograph. They come to understand the preparation, the discipline, the community, and the responsibility behind what they see.`}
+            story={`${person.storyLead} ${person.storyBody}`}
           />
         </div>
         <aside className="story-fact">
@@ -68,19 +69,21 @@ export default async function CustodianProfile({ params }: { params: Promise<{ s
         <div>
           <p>02 · The living practice</p>
           <h2>{person.tradition} is not frozen in time.</h2>
-          <span>It changes carefully, through the people who practice it.</span>
+          <span>{person.practiceNote}</span>
         </div>
-        <img src="/weaving-hands.jpg" alt="Close view of handwork showing the detail of a living practice" />
+        <img src={person.detailImage} alt={`${person.tradition} as practiced by ${person.name}`} />
       </section>
 
       <section className="experience-invite" id="experiences">
         <p>Learn directly from {person.name}</p>
-        <h2>A two-hour doorway<br />into {person.tradition}.</h2>
+        <h2>{person.experience.title}</h2>
+        <span className="experience-intro">{person.experience.intro}</span>
         <div>
-          <span><CalendarDays /> Small group · 2 hours</span>
-          <strong>₹1,500 <small>per person</small></strong>
-          <a href="/book">View the experience <ArrowRight /></a>
+          <span><CalendarDays /> Small group · {person.experience.duration}</span>
+          <strong>₹{person.experience.price.toLocaleString('en-IN')} <small>per person</small></strong>
+          <a href={`/book?host=${person.slug}`}>View the experience <ArrowRight /></a>
         </div>
+        <small className="experience-trust"><ShieldCheck /> No payment until {person.name.split(' ')[0]} confirms your visit.</small>
       </section>
       <SiteFooter />
     </main>
